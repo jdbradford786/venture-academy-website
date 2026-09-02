@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Venture Academy — Cohort II, Lent Term 2027</title>
-<meta name="description" content="Venture Academy is an eight-week venture capital practicum in association with Trinity College, Cambridge. Cohort II opens January 2027.">
+<meta name="description" content="Venture Academy is an eight-week venture capital program in association with Trinity College, Cambridge. Cohort II opens January 2027.">
 
 <!-- ============================================================
      FONTS
@@ -152,7 +152,7 @@
     transition:border-color 0.2s, color 0.2s;
   }
   nav.links a:hover{ color:var(--ink); border-color:var(--steel); }
-  .nav-cta{
+  nav.links a.nav-cta{
     font-family:var(--font-mono);
     font-size:0.75rem;
     letter-spacing:0.05em;
@@ -163,9 +163,10 @@
     padding:10px 18px;
     border-radius:2px;
     white-space:nowrap;
+    border-bottom:none;
     transition:background 0.2s;
   }
-  .nav-cta:hover{ background:#0A1A2E; }
+  nav.links a.nav-cta:hover{ background:#0A1A2E; color:var(--white); }
 
   .menu-toggle{ display:none; }
   .hamburger{ display:none; }
@@ -494,8 +495,7 @@
   "dates": {
     "kickoff": "20 January 2027",
     "deadline": "Date TBC",
-    "icEvening": "10 March 2027",
-    "va101": "17 March 2027"
+    "icEvening": "10 March 2027"
   },
 
   "applyLinks": {
@@ -511,7 +511,7 @@
   ],
 
   "quotes": [
-    { "text": "I got a good sense of the noise in venture decision-making, and how important the team and the narrative really are.", "cite": "Cohort I student" },
+    { "text": "I got a good sense of how venture decisions were made, and how important the team and the narrative really are.", "cite": "Cohort I student" },
     { "text": "VC is hard — much harder than angel investing. The risk level is way higher than I expected.", "cite": "Cohort I founder" }
   ],
 
@@ -548,8 +548,8 @@
 
     <nav class="links">
       <a href="#programme">Programme</a>
-      <a href="#results">Results</a>
-      <a href="#journey">Journey</a>
+      <a href="#results" id="nav-results">Cohort I</a>
+      <a href="#journey" id="nav-journey">Cohort II</a>
       <a href="#faculty">Faculty</a>
       <a href="#apply" class="nav-cta">Apply</a>
     </nav>
@@ -559,8 +559,8 @@
   </div>
   <div class="mobile-menu">
     <a href="#programme">Programme</a>
-    <a href="#results">Results</a>
-    <a href="#journey">Journey</a>
+    <a href="#results" id="nav-results-m">Cohort I</a>
+    <a href="#journey" id="nav-journey-m">Cohort II</a>
     <a href="#faculty">Faculty</a>
     <a href="#apply">Apply</a>
   </div>
@@ -578,7 +578,7 @@
       <div class="row academy-row" aria-hidden="true"><span>A</span><span>C</span><span>A</span><span>D</span><span>E</span><span>M</span><span>Y</span></div>
     </div>
 
-    <p class="sub">Twenty-five students. Four early-stage startups. One Investment Committee. An eight-week practicum in venture capital, taught by people who do it for a living.</p>
+    <p class="sub">Twenty-five students. Four early-stage startups. One Investment Committee. An eight-week dive in venture capital, taught by the people who do it for a living.</p>
     <div class="hero-actions">
       <a href="#apply" class="btn btn-primary">Apply for <span id="hero-cta-cohort">Cohort II</span></a>
       <a href="#journey" class="btn btn-ghost">See the eight weeks</a>
@@ -588,8 +588,8 @@
 
 <div class="ticker" aria-hidden="true">
   <div class="ticker-track">
-    <span>APPLY FOR COHORT II</span><span>TRINITY COLLEGE, CAMBRIDGE</span><span>25 PLACES</span><span>ANY COLLEGE, ANY SUBJECT</span>
-    <span>APPLY FOR COHORT II</span><span>TRINITY COLLEGE, CAMBRIDGE</span><span>25 PLACES</span><span>ANY COLLEGE, ANY SUBJECT</span>
+    <span>APPLY FOR COHORT II</span><span>TRINITY COLLEGE, CAMBRIDGE</span><span>25 PLACES</span><span>ANY COLLEGE</span><span>EIGHT WEEKS</span>
+    <span>APPLY FOR COHORT II</span><span>TRINITY COLLEGE, CAMBRIDGE</span><span>25 PLACES</span><span>ANY COLLEGE</span><span>EIGHT WEEKS</span>
   </div>
 </div>
 
@@ -605,7 +605,7 @@
         <h2>What <span id="programme-cohort">Cohort II</span> signs up for</h2>
       </div>
     </div>
-    <p class="chapter-intro reveal">Venture Academy is a hands-on venture capital practicum held in association with Trinity College, Cambridge. Over eight weeks, small, cross-disciplinary teams evaluate real, live startups exactly as a fund would — building an investment thesis, stress-testing the founders, and defending their conclusions in front of the people who'd actually write the cheque.</p>
+    <p class="chapter-intro reveal">Venture Academy is a hands-on venture capital program held in association with Trinity College, Cambridge. Over eight weeks, small, cross-disciplinary teams evaluate real, live startups exactly as a fund would — building an investment thesis, stress-testing the founders, and defending their conclusions in front of the people who'd actually write the cheque.</p>
 
     <div class="grid-3 reveal">
       <div class="cell">
@@ -629,7 +629,7 @@
       <div class="cell">
         <h3>A Small, Serious Cohort</h3>
         <ul>
-          <li>Twenty-five places, any college, any subject</li>
+          <li>Twenty-five places, from any college</li>
           <li>Cross-disciplinary teams by design</li>
           <li>Backed by Trinity College, Cambridge</li>
           <li>Undergraduates, postgraduates and PhDs alike</li>
@@ -655,12 +655,12 @@
     <!-- populated from the content config above -->
     <div class="stat-row reveal" id="stats-row"></div>
 
-    <p class="footnote-line reveal">23 of 25 students completed the full eight weeks. Every one of them told us what worked and what didn't — a 100% response rate on our closing survey.</p>
+    <p class="footnote-line reveal">23 of 25 students completed the full eight weeks and graduated as Venture Fellows. Every one of them told us what worked and what didn't — a 100% response rate on our closing survey.</p>
 
     <!-- populated from the content config above -->
     <div class="quote-row reveal" id="quote-row"></div>
 
-    <p class="prize-note reveal">Each cohort closes with a live Investment Committee. In <span id="prize-year">2026</span>, one of four participating startups left with a £10,000 investment decision made on the spot.</p>
+    <p class="prize-note reveal">Each cohort closes with a live Investment Committee. In <span id="prize-year">2026</span>, the winning startup won a £10,000 grant made on the spot.</p>
   </div>
 </section>
 
@@ -673,7 +673,7 @@
       <span class="folio">III.</span>
       <div>
         <span class="kicker" id="journey-kicker">Eight Weeks · Lent Term 2027</span>
-        <h2>The journey</h2>
+        <h2 id="journey-heading">Cohort II</h2>
       </div>
     </div>
     <p class="chapter-intro reveal"><span id="journey-cohort">Cohort II</span> begins <strong id="kickoff-date">20 January 2027</strong> and runs every Wednesday through to a closing Investment Committee evening on <strong id="ic-date">10 March 2027</strong>.</p>
@@ -699,7 +699,7 @@
       </div>
       <div class="cell">
         <h3>Investment Committee</h3>
-        <p>In the closing week, every team presents its memo to a panel of working investors — fifteen minutes each — before the panel awards one £10,000 investment.</p>
+        <p>In the closing week, every team presents its memo to a panel of working investors before the panel awards one £10,000 prize.</p>
       </div>
     </div>
   </div>
@@ -713,11 +713,11 @@
     <div class="chapter-head reveal">
       <span class="folio">IV.</span>
       <div>
-        <span class="kicker" id="faculty-kicker">Cohort I Faculty</span>
+        <span class="kicker" id="faculty-kicker">Faculty</span>
         <h2>Learn from people who write the cheques</h2>
       </div>
     </div>
-    <p class="chapter-intro reveal"><span id="faculty-intro-cohort">Cohort I</span> heard directly from partners at some of Europe's most active funds, under Chatham House Rule — real portfolios, real judgement calls, nothing rehearsed for a classroom.</p>
+    <p class="chapter-intro reveal">Hear directly from partners at some of Europe's most active funds, under Chatham House Rule — real portfolios, real judgement calls, nothing rehearsed for a classroom.</p>
 
     <!-- populated from the content config above -->
     <div class="faculty-grid reveal" id="faculty-grid"></div>
@@ -747,7 +747,7 @@
       <div class="apply-card">
         <span class="tag">Students</span>
         <h3>Apply as a student</h3>
-        <p>Open to every Cambridge University student — any college, any subject, any year. No finance background required, just curiosity and a willingness to do the work.</p>
+        <p>Open to Cambridge University students. No finance background required, just curiosity and a willingness to do the work.</p>
         <a href="#" id="apply-student-link" class="btn btn-primary">Apply as a Student</a>
       </div>
       <div class="apply-card">
@@ -784,8 +784,8 @@
       </a>
       <div class="footer-links">
         <a href="#programme">Programme</a>
-        <a href="#results">Results</a>
-        <a href="#journey">Journey</a>
+        <a href="#results" id="nav-results-f">Cohort I</a>
+        <a href="#journey" id="nav-journey-f">Cohort II</a>
         <a href="#faculty">Faculty</a>
         <a href="#apply">Apply</a>
         <a href="https://www.linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
@@ -821,18 +821,25 @@
       setText('hero-cta-cohort', data.cohortLabel);
       setText('programme-cohort', data.cohortLabel);
       setText('journey-kicker', 'Eight Weeks · ' + data.term);
+      setText('journey-heading', data.cohortLabel);
       setText('journey-cohort', data.cohortLabel);
       setText('kickoff-date', data.dates.kickoff);
       setText('ic-date', data.dates.icEvening);
       setText('results-kicker', data.priorCohortLabel + ' · ' + data.priorTerm);
       setText('prize-year', data.priorYear);
-      setText('faculty-kicker', data.priorCohortLabel + ' Faculty');
-      setText('faculty-intro-cohort', data.priorCohortLabel);
       setText('panel-label', data.priorYear + ' Investment Committee panel');
       setText('tbc-cohort', data.cohortLabel);
       setText('tbc-term', data.term);
       setText('apply-kicker', data.cohortLabel + ' · ' + data.term);
       setText('footer-year', data.siteYear);
+
+      // Nav labels — kept in sync with the same cohort names used everywhere else
+      setText('nav-results', data.priorCohortLabel);
+      setText('nav-journey', data.cohortLabel);
+      setText('nav-results-m', data.priorCohortLabel);
+      setText('nav-journey-m', data.cohortLabel);
+      setText('nav-results-f', data.priorCohortLabel);
+      setText('nav-journey-f', data.cohortLabel);
 
       // Apply links
       setHref('apply-student-link', data.applyLinks.student);
@@ -876,10 +883,9 @@
       var datesList = document.getElementById('dates-list');
       if (datesList && data.dates){
         var items = [
-          { d: data.dates.kickoff,   e: data.cohortLabel + ' begins' },
           { d: data.dates.deadline,  e: 'Applications close' },
-          { d: data.dates.icEvening, e: 'Investment Committee evening' },
-          { d: data.dates.va101,     e: 'VA101 information session' }
+          { d: data.dates.kickoff,   e: data.cohortLabel + ' begins' },
+          { d: data.dates.icEvening, e: 'Investment Committee evening' }
         ];
         datesList.innerHTML = items.map(function(it){
           return '<div class="row"><span class="d">'+esc(it.d)+'</span><span class="e">'+esc(it.e)+'</span></div>';
