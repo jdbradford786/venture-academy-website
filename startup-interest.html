@@ -168,7 +168,7 @@
 <div class="full-screen active" id="screen-intro">
   <span class="q-eyebrow">Cohort II &middot; Startup Registration</span>
   <h1>Tell us about your startup.</h1>
-  <p>Eleven questions, about five minutes. Four early-stage companies join each cohort as live subjects for the student teams' investment analysis - if that sounds useful to you, we'd like to hear from you.</p>
+  <p>Eight questions, about three minutes. Four early-stage companies join each cohort as live subjects for the student teams' investment analysis - if that sounds useful to you, we'd like to hear from you.</p>
   <div class="nav-row">
     <button class="btn-ok" id="start-btn">Start <span class="key-hint">&#8629;</span></button>
   </div>
@@ -216,7 +216,7 @@
       of the script
    3. Deploy as a Web App, copy the URL, paste it below
    ============================================================ */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzS3X1l5ZuE7EUlXiVuqxbjJ4CPetgp5dN4BVs_ncTIz0yTn99-S2IX89U9iTwB-ZEq/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxt6b_nhufpfjBw70mSIokbdRaO7EI-KnQLRkbfrcITo-Yd5nvYO9vVh3Gvmk3bCDs/exec";
 
 /* ============================================================
    QUESTIONS - edit this list to change the form itself.
@@ -229,10 +229,7 @@ const QUESTIONS = [
   { id:'role', type:'text', label:"What's your role at the company?", required:true },
   { id:'email', type:'email', label:"What's the best email to reach you on?", required:true },
   { id:'stage', type:'choice', label:"What stage is your company at?", required:true, options:['Idea stage','Pre-seed','Seed','Series A or later'], other:true },
-  { id:'raised', type:'text', label:"How much have you raised to date, if any?", required:false },
-  { id:'sector', type:'text', label:"Which sector or industry best describes what you do?", required:true },
-  { id:'whyInterested', type:'textarea', label:"Why are you interested in partnering with Venture Academy?", required:true },
-  { id:'anythingElse', type:'textarea', label:"Anything else we should know?", required:false }
+  { id:'attendance', type:'choice', label:"Please confirm you can attend the programme in Cambridge every Wednesday evening?", required:true, options:['Yes','No'], other:true }
 ];
 
 /* ============================================================
