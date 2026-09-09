@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apply - Venture Academy</title>
+<meta name="description" content="Apply to Venture Academy, Cohort II. Trinity College, Cambridge.">
+<meta name="robots" content="noindex">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     Same tokens as index.html - keep these two files in sync
+     if the brand palette ever changes.
+     ============================================================ */
+  :root{
+    --ink:        #0F2744;
+    --ink-70:     rgba(15,39,68,0.7);
+    --ink-40:     rgba(15,39,68,0.4);
+    --steel:      #5D8FA6;
+    --steel-soft: rgba(93,143,166,0.35);
+    --near-black: #1A1F2E;
+    --off-white:  #F0F0F0;
+    --pale:       #EFF4F8;
+    --parchment:  #FBF9F3;
+    --charcoal:   #2B2E34;
+    --white:      #FFFFFF;
+    --error:      #B23B3B;
+
+    --font-display: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+    --font-body:    'Inter', -apple-system, 'Segoe UI', sans-serif;
+    --font-mono:    'IBM Plex Mono', monospace;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--charcoal);
+    background:var(--pale);
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden; /* the question stage manages its own scroll */
+  }
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
+  }
+  a{ color:inherit; }
+  :focus-visible{ outline:2px solid var(--steel); outline-offset:3px; }
+
+  /* honeypot - hidden from real visitors, catches simple bots */
+  .hp{ position:absolute; left:-9999px; top:-9999px; }
+
+  /* ============================================================
+     PROGRESS BAR
+     ============================================================ */
+  .progress-track{
+    position:fixed; top:0; left:0; right:0; height:4px;
+    background:rgba(15,39,68,0.1); z-index:100;
+  }
+  .progress-fill{
+    height:100%; width:0%; background:var(--steel);
+    transition:width 0.35s ease;
+  }
+
+  /* ============================================================
+     MINI HEADER
+     ============================================================ */
+  header.mini{
+    position:fixed; top:4px; left:0; right:0; z-index:90;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px clamp(20px,5vw,48px);
+  }
+  .brand-compact{ text-decoration:none; line-height:1; }
+  .brand-compact .word{ font-family:var(--font-display); font-size:1rem; }
+  .brand-compact .venture-w{ font-weight:700; color:var(--ink); }
+  .brand-compact .academy-w{ font-weight:400; color:var(--steel); }
+  .exit-link{
+    font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--ink-70); text-decoration:none; border:1px solid var(--ink-40);
+    padding:8px 14px; border-radius:2px; background:transparent; cursor:pointer;
+    transition:border-color 0.2s, color 0.2s;
+  }
+  .exit-link:hover{ border-color:var(--ink); color:var(--ink); }
+
+  /* ============================================================
+     STAGE / SLIDES
+     ============================================================ */
+  .stage{
+    position:relative;
+    height:100vh; width:100%;
+    overflow:hidden;
+  }
+  .slide{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:96px clamp(24px,8vw,120px) 0;
+    opacity:0; pointer-events:none;
+    transform:translateY(24px);
+    transition:opacity 0.45s ease, transform 0.45s ease;
+  }
+  .slide.active{ opacity:1; pointer-events:auto; transform:translateY(0); }
+  .slide.leaving-up{ opacity:0; transform:translateY(-24px); }
+
+  .q-eyebrow{
+    font-family:var(--font-mono); font-size:0.78rem; letter-spacing:0.08em;
+    color:var(--steel); margin-bottom:18px; display:block;
+  }
+  .q-label{
+    font-family:var(--font-display); font-weight:700; color:var(--ink);
+    font-size:clamp(1.5rem, 4vw, 2.4rem); line-height:1.25; max-width:26ch;
+    margin-bottom:32px;
+  }
+  .q-hint{
+    font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-70);
+    margin-top:-18px; margin-bottom:28px; display:block;
+  }
+
+  .field-text{
+    font-family:var(--font-body); font-size:clamp(1.2rem,2.6vw,1.6rem);
+    color:var(--ink); background:transparent; border:none;
+    border-bottom:2px solid var(--ink-40); padding:8px 2px;
+    width:100%; max-width:640px; outline:none;
+    transition:border-color 0.2s;
+  }
+  .field-text:focus{ border-color:var(--steel); }
+  .field-text.field-error{ border-color:var(--error); }
+
+  textarea.field-text{
+    resize:none; min-height:140px; line-height:1.6;
+    font-size:clamp(1.05rem,2vw,1.25rem); border:1px solid var(--ink-40); border-radius:2px; padding:16px;
+  }
+  textarea.field-text:focus{ border-color:var(--steel); }
+
+  .char-count{
+    font-family:var(--font-mono); font-size:0.72rem; color:var(--ink-70);
+    margin-top:8px; text-align:right; max-width:640px;
+  }
+  .char-count.over{ color:var(--error); }
+
+  .error-msg{
+    font-family:var(--font-mono); font-size:0.78rem; color:var(--error);
+    margin-top:10px; min-height:1.2em;
+  }
+
+  /* choice options */
+  .options{ display:flex; flex-direction:column; gap:12px; max-width:560px; }
+  .option{
+    display:flex; align-items:center; gap:14px;
+    border:1px solid var(--ink-40); border-radius:3px;
+    padding:16px 18px; cursor:pointer; background:var(--white);
+    font-size:1.05rem; color:var(--ink); text-align:left;
+    transition:border-color 0.15s, background 0.15s;
+  }
+  .option:hover{ border-color:var(--steel); }
+  .option.selected{ border-color:var(--steel); background:var(--pale); }
+  .option .key{
+    flex:0 0 28px; height:28px; border:1px solid var(--ink-40); border-radius:3px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-70);
+  }
+  .option.selected .key{ border-color:var(--steel); color:var(--steel); }
+  .other-input{ margin-top:6px; max-width:560px; }
+
+  /* nav row (OK button) */
+  .nav-row{ display:flex; align-items:center; margin-top:34px; }
+  .nav-row > *{ margin-right:16px; }
+  .btn-ok{
+    font-family:var(--font-mono); font-size:0.82rem; letter-spacing:0.05em; text-transform:uppercase;
+    background:var(--ink); color:var(--white); border:none; border-radius:2px;
+    padding:14px 26px; cursor:pointer; display:inline-flex; align-items:center; gap:10px;
+    transition:background 0.2s, transform 0.15s;
+  }
+  .btn-ok:hover{ background:#0A1A2E; transform:translateY(-1px); }
+  .btn-ok:disabled{ background:var(--ink-40); cursor:not-allowed; transform:none; }
+  .key-hint{
+    font-size:0.7rem; border:1px solid rgba(240,240,240,0.5); border-radius:3px;
+    padding:2px 6px; opacity:0.85;
+  }
+  .press-enter{ font-family:var(--font-mono); font-size:0.72rem; color:var(--ink-70); }
+
+  /* up/down nav arrows */
+  .arrow-nav{
+    position:fixed; right:clamp(16px,4vw,40px); bottom:32px; z-index:90;
+    display:flex; flex-direction:column; gap:8px;
+  }
+  .arrow-btn{
+    width:42px; height:42px; border-radius:3px; border:1px solid var(--ink-40);
+    background:var(--white); cursor:pointer; display:flex; align-items:center; justify-content:center;
+    color:var(--ink); font-size:1.1rem; transition:border-color 0.2s, opacity 0.2s;
+  }
+  .arrow-btn:hover{ border-color:var(--steel); }
+  .arrow-btn:disabled{ opacity:0.35; cursor:not-allowed; }
+
+  /* ============================================================
+     INTRO / SUCCESS / SUBMITTING screens
+     ============================================================ */
+  .full-screen{
+    position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center;
+    padding:96px clamp(24px,8vw,120px) 0; background:var(--pale);
+    opacity:0; pointer-events:none; transition:opacity 0.4s ease; z-index:80;
+  }
+  .full-screen.active{ opacity:1; pointer-events:auto; }
+  .full-screen h1{
+    font-family:var(--font-display); font-weight:700; color:var(--ink);
+    font-size:clamp(2rem,5vw,3.2rem); line-height:1.15; max-width:16ch; margin:0 0 24px;
+  }
+  .full-screen p{ font-size:1.15rem; color:var(--ink-70); max-width:52ch; line-height:1.6; margin:0 0 28px; }
+  .spinner{
+    width:28px; height:28px; border:3px solid var(--ink-40); border-top-color:var(--steel);
+    border-radius:50%; animation:spin 0.8s linear infinite; margin-bottom:24px;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+
+<header class="mini">
+  <a href="index.html" class="brand-compact"><span class="word"><span class="venture-w">VENTURE</span> <span class="academy-w">ACADEMY</span></span></a>
+  <a href="index.html" class="exit-link">Exit</a>
+</header>
+
+<!-- ============================================================
+     INTRO SCREEN
+     ============================================================ -->
+<div class="full-screen active" id="screen-intro">
+  <span class="q-eyebrow">Cohort II &middot; Student Application</span>
+  <h1>Let's get your application started.</h1>
+  <p>Twelve questions, about eight minutes. There's no need to finish in one sitting - just don't close this tab, or you'll need to start again.</p>
+  <div class="nav-row">
+    <button class="btn-ok" id="start-btn">Start <span class="key-hint">&#8629;</span></button>
+  </div>
+</div>
+
+<!-- ============================================================
+     SUBMITTING SCREEN
+     ============================================================ -->
+<div class="full-screen" id="screen-submitting">
+  <div class="spinner"></div>
+  <h1>Sending your application...</h1>
+  <p>This only takes a second.</p>
+</div>
+
+<!-- ============================================================
+     SUCCESS SCREEN
+     ============================================================ -->
+<div class="full-screen" id="screen-success">
+  <span class="q-eyebrow">Application received</span>
+  <h1>Thanks - you're in the pile.</h1>
+  <p>We'll be in touch by email once applications close. In the meantime, feel free to follow Venture Academy for updates.</p>
+  <div class="nav-row">
+    <a href="index.html" class="btn-ok" style="text-decoration:none;">Back to the site</a>
+  </div>
+</div>
+
+<!-- ============================================================
+     ERROR SCREEN
+     ============================================================ -->
+<div class="full-screen" id="screen-error">
+  <span class="q-eyebrow" style="color:var(--error);">Something went wrong</span>
+  <h1>Your application didn't send.</h1>
+  <p>This is usually a connection hiccup. Your answers are still here - just try again, or email them to us directly at <a href="mailto:info@ventureacademy.co.uk">info@ventureacademy.co.uk</a> if it keeps happening.</p>
+  <div class="nav-row">
+    <button class="btn-ok" id="retry-btn">Try again</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     QUESTION STAGE
+     ============================================================ -->
+<main class="stage" id="stage"></main>
+
+<div class="arrow-nav" id="arrow-nav" style="display:none;">
+  <button class="arrow-btn" id="arrow-up" aria-label="Previous question">&uarr;</button>
+  <button class="arrow-btn" id="arrow-down" aria-label="Next question">&darr;</button>
+</div>
+
+<!-- honeypot field - real users never see or fill this in -->
+<input type="text" class="hp" id="hp-field" tabindex="-1" autocomplete="off">
+
+<script>
+/* ============================================================
+   SETUP REQUIRED - see the setup guide for full steps:
+   1. Create a Google Sheet
+   2. Extensions -> Apps Script -> paste the provided script
+   3. Deploy as a Web App, copy the URL, paste it below
+   ============================================================ */
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzC2VNa5xxO8QvGZl-Z98XFjqoavahsaaDlXoRCMokxsp99zGuqWMjty7_ZWCi5Bw_b3g/exec";
+
+/* ============================================================
+   QUESTIONS - edit this list to change the form itself.
+   Adding, removing or reordering a question only needs a
+   change here; the rest of the page builds itself from it.
+   ============================================================ */
+const QUESTIONS = [
+  { id:'firstName', type:'text', label:"What's your first name?", required:true },
+  { id:'lastName', type:'text', label:"And your last name?", required:true },
+  { id:'email', type:'email', label:"What's the best email to reach you on?", required:true },
+  { id:'college', type:'text', label:"Which college are you a part of?", required:true },
+  { id:'course', type:'text', label:"What's your course of study or area of research?", required:true },
+  { id:'stage', type:'choice', label:"What stage are you?", required:true, options:['Undergrad','Postgrad','PhD'], other:true },
+  { id:'yearOfStudy', type:'text', label:"What year of study or research are you in?", required:true },
+  { id:'gender', type:'choice', label:"Which gender do you identify with?", required:true, options:['Female','Male','Non-binary','Prefer not to say'], other:true },
+  { id:'interests', type:'choice', label:"Which of these best describe your interests?", required:true, options:['Entrepreneurship','Investing','Both'], other:true },
+  { id:'founderAnswer', type:'textarea', label:"Tell us about a company or founder you find fascinating, and why.", maxLength:750, required:true },
+  { id:'animalAnswer', type:'textarea', label:"If you were investing in a startup, which animal's characteristics would you most want that company to embody - and why would those traits make it a good investment?", required:true },
+  { id:'programmeQuestion', type:'textarea', label:"What specific question do you hope this programme will help you answer?", required:false }
+];
+
+/* ============================================================
+   ENGINE - shouldn't need editing
+   ============================================================ */
+const stageEl = document.getElementById('stage');
+const progressFill = document.getElementById('progress-fill');
+const arrowNav = document.getElementById('arrow-nav');
+const arrowUp = document.getElementById('arrow-up');
+const arrowDown = document.getElementById('arrow-down');
+
+let current = -1; // -1 = intro screen
+const answers = {};
+const slideEls = [];
+
+function letterFor(i){ return String.fromCharCode(65 + i); } // A, B, C...
+
+function buildSlide(q, index){
+  const el = document.createElement('section');
+  el.className = 'slide';
+  el.dataset.index = index;
+
+  const eyebrow = document.createElement('span');
+  eyebrow.className = 'q-eyebrow';
+  eyebrow.textContent = (index + 1) + ' \u2192 ' + QUESTIONS.length + (q.required === false ? '  \u00b7  optional' : '');
+  el.appendChild(eyebrow);
+
+  const label = document.createElement('label');
+  label.className = 'q-label';
+  label.textContent = q.label;
+  label.setAttribute('for', q.id);
+  el.appendChild(label);
+
+  if (q.type === 'text' || q.type === 'email'){
+    const input = document.createElement('input');
+    input.type = q.type === 'email' ? 'email' : 'text';
+    input.className = 'field-text';
+    input.id = q.id;
+    input.autocomplete = q.type === 'email' ? 'email' : 'off';
+    input.addEventListener('keydown', function(e){
+      if (e.key === 'Enter'){ e.preventDefault(); attemptAdvance(); }
+    });
+    el.appendChild(input);
+    el.appendChild(errorEl());
+    el.appendChild(navRow('OK'));
+  }
+
+  if (q.type === 'textarea'){
+    const textarea = document.createElement('textarea');
+    textarea.className = 'field-text';
+    textarea.id = q.id;
+    if (q.maxLength) textarea.maxLength = q.maxLength;
+    el.appendChild(textarea);
+    if (q.maxLength){
+      const count = document.createElement('div');
+      count.className = 'char-count';
+      count.id = q.id + '-count';
+      count.textContent = '0 / ' + q.maxLength;
+      textarea.addEventListener('input', function(){
+        const n = textarea.value.length;
+        count.textContent = n + ' / ' + q.maxLength;
+        count.classList.toggle('over', n >= q.maxLength);
+      });
+      el.appendChild(count);
+    }
+    el.appendChild(errorEl());
+    el.appendChild(navRow(index === QUESTIONS.length - 1 ? 'Submit' : 'OK'));
+  }
+
+  if (q.type === 'choice'){
+    const wrap = document.createElement('div');
+    wrap.className = 'options';
+    wrap.id = q.id;
+    q.options.forEach(function(opt, i){
+      wrap.appendChild(optionEl(q, opt, i));
+    });
+    if (q.other){
+      wrap.appendChild(optionEl(q, 'Other', q.options.length, true));
+    }
+    el.appendChild(wrap);
+
+    if (q.other){
+      const otherInput = document.createElement('input');
+      otherInput.type = 'text';
+      otherInput.className = 'field-text other-input';
+      otherInput.id = q.id + '-other';
+      otherInput.placeholder = 'Please specify';
+      otherInput.style.display = 'none';
+      otherInput.addEventListener('keydown', function(e){
+        if (e.key === 'Enter'){ e.preventDefault(); attemptAdvance(); }
+      });
+      el.appendChild(otherInput);
+    }
+    el.appendChild(errorEl());
+  }
+
+  return el;
+}
+
+function errorEl(){
+  const d = document.createElement('div');
+  d.className = 'error-msg';
+  return d;
+}
+
+function navRow(label){
+  const row = document.createElement('div');
+  row.className = 'nav-row';
+  const btn = document.createElement('button');
+  btn.className = 'btn-ok';
+  btn.type = 'button';
+  btn.innerHTML = label + ' <span class="key-hint">&#8629;</span>';
+  btn.addEventListener('click', attemptAdvance);
+  row.appendChild(btn);
+  const hint = document.createElement('span');
+  hint.className = 'press-enter';
+  hint.textContent = 'press Enter';
+  row.appendChild(hint);
+  return row;
+}
+
+function optionEl(q, label, i, isOther){
+  const btn = document.createElement('div');
+  btn.className = 'option';
+  btn.tabIndex = 0;
+  btn.dataset.value = label;
+  const key = document.createElement('span');
+  key.className = 'key';
+  key.textContent = letterFor(i);
+  btn.appendChild(key);
+  const text = document.createElement('span');
+  text.textContent = label;
+  btn.appendChild(text);
+
+  function choose(){
+    const group = document.getElementById(q.id);
+    Array.from(group.children).forEach(function(c){ c.classList.remove('selected'); });
+    btn.classList.add('selected');
+    answers[q.id] = label;
+    const otherInput = document.getElementById(q.id + '-other');
+    if (isOther){
+      if (otherInput){ otherInput.style.display = 'block'; otherInput.focus(); }
+    } else {
+      if (otherInput){ otherInput.style.display = 'none'; otherInput.value = ''; }
+      setTimeout(function(){ attemptAdvance(); }, 350);
+    }
+  }
+  btn.addEventListener('click', choose);
+  btn.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); choose(); } });
+  return btn;
+}
+
+QUESTIONS.forEach(function(q, i){
+  const el = buildSlide(q, i);
+  stageEl.appendChild(el);
+  slideEls.push(el);
+});
+
+// global number-key shortcut for choice questions
+document.addEventListener('keydown', function(e){
+  if (current < 0 || current >= QUESTIONS.length) return;
+  const q = QUESTIONS[current];
+  if (q.type !== 'choice') return;
+  const n = parseInt(e.key, 10);
+  if (!isNaN(n) && n >= 1){
+    const group = document.getElementById(q.id);
+    const opts = group.querySelectorAll('.option');
+    if (opts[n-1]) opts[n-1].click();
+  }
+});
+
+function updateProgress(){
+  const pct = current < 0 ? 0 : ((current) / QUESTIONS.length) * 100;
+  progressFill.style.width = pct + '%';
+}
+
+function showSlide(index){
+  slideEls.forEach(function(el, i){
+    el.classList.toggle('active', i === index);
+  });
+  current = index;
+  updateProgress();
+  arrowNav.style.display = 'flex';
+  arrowUp.disabled = (index === 0);
+  arrowDown.disabled = false;
+  const q = QUESTIONS[index];
+  const focusEl = document.getElementById(q.id);
+  if (focusEl && (q.type === 'text' || q.type === 'email' || q.type === 'textarea')){
+    setTimeout(function(){ focusEl.focus(); }, 300);
+  }
+}
+
+function validate(q){
+  const errorBox = slideEls[QUESTIONS.indexOf(q)].querySelector('.error-msg');
+  errorBox.textContent = '';
+
+  if (q.type === 'choice'){
+    if (q.required && !answers[q.id]){
+      errorBox.textContent = 'Please choose an option to continue.';
+      return false;
+    }
+    if (answers[q.id] === 'Other'){
+      const otherVal = document.getElementById(q.id + '-other').value.trim();
+      if (!otherVal){ errorBox.textContent = 'Please tell us a bit more.'; return false; }
+      answers[q.id + 'Other'] = otherVal;
+    }
+    return true;
+  }
+
+  const field = document.getElementById(q.id);
+  const val = field.value.trim();
+  if (q.required && !val){
+    field.classList.add('field-error');
+    errorBox.textContent = 'This one\'s required to continue.';
+    return false;
+  }
+  if (q.type === 'email' && val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)){
+    field.classList.add('field-error');
+    errorBox.textContent = 'That email doesn\'t look quite right.';
+    return false;
+  }
+  field.classList.remove('field-error');
+  answers[q.id] = val;
+  return true;
+}
+
+function attemptAdvance(){
+  const q = QUESTIONS[current];
+  if (!validate(q)) return;
+  goNext();
+}
+
+function goNext(){
+  if (current === QUESTIONS.length - 1){
+    submitApplication();
+    return;
+  }
+  showSlide(current + 1);
+}
+
+function goPrev(){
+  if (current <= 0) return;
+  showSlide(current - 1);
+}
+
+arrowUp.addEventListener('click', goPrev);
+arrowDown.addEventListener('click', function(){
+  const q = QUESTIONS[current];
+  if (q.type === 'choice'){ goNext(); } else { attemptAdvance(); }
+});
+
+document.addEventListener('keydown', function(e){
+  if (current < 0) return;
+  if (e.key === 'ArrowUp'){ e.preventDefault(); goPrev(); }
+});
+
+document.getElementById('start-btn').addEventListener('click', beginForm);
+function beginForm(){
+  document.getElementById('screen-intro').classList.remove('active');
+  showSlide(0);
+}
+
+document.getElementById('retry-btn').addEventListener('click', function(){
+  switchScreen('screen-error', null);
+  submitApplication();
+});
+
+function switchScreen(showId, hideId){
+  if (hideId) document.getElementById(hideId).classList.remove('active');
+  document.getElementById(showId).classList.add('active');
+  arrowNav.style.display = 'none';
+}
+
+function submitApplication(){
+  if (document.getElementById('hp-field').value){ return; } // bot caught by honeypot
+
+  slideEls[current].classList.remove('active');
+  switchScreen('screen-submitting', null);
+
+  const payload = Object.assign({ submittedAt: new Date().toISOString() }, answers);
+
+  if (!SCRIPT_URL || SCRIPT_URL.indexOf('PASTE_YOUR') === 0){
+    console.error('Venture Academy application form: SCRIPT_URL has not been set yet. See the setup guide.');
+    switchScreen('screen-error', 'screen-submitting');
+    return;
+  }
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).then(function(){
+    switchScreen('screen-success', 'screen-submitting');
+  }).catch(function(err){
+    console.error('Venture Academy application form submission failed:', err);
+    switchScreen('screen-error', 'screen-submitting');
+  });
+}
+</script>
+
+</body>
+</html>
