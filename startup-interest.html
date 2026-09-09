@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Apply - Venture Academy</title>
-<meta name="description" content="Apply to Venture Academy, Cohort II. Trinity College, Cambridge.">
+<title>Partner as a Startup - Venture Academy</title>
+<meta name="description" content="Register your startup's interest in partnering with Venture Academy, Cohort II. Trinity College, Cambridge.">
 <meta name="robots" content="noindex">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,10 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
-  /* ============================================================
-     Same tokens as index.html - keep these two files in sync
-     if the brand palette ever changes.
-     ============================================================ */
+  /* Same tokens as index.html / apply.html - keep these in sync */
   :root{
     --ink:        #0F2744;
     --ink-70:     rgba(15,39,68,0.7);
@@ -38,12 +35,8 @@
   *,*::before,*::after{ box-sizing:border-box; }
   html,body{ height:100%; }
   body{
-    margin:0;
-    font-family:var(--font-body);
-    color:var(--charcoal);
-    background:var(--pale);
-    -webkit-font-smoothing:antialiased;
-    overflow:hidden; /* the question stage manages its own scroll */
+    margin:0; font-family:var(--font-body); color:var(--charcoal); background:var(--pale);
+    -webkit-font-smoothing:antialiased; overflow:hidden;
   }
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
@@ -51,24 +44,11 @@
   a{ color:inherit; }
   :focus-visible{ outline:2px solid var(--steel); outline-offset:3px; }
 
-  /* honeypot - hidden from real visitors, catches simple bots */
   .hp{ position:absolute; left:-9999px; top:-9999px; }
 
-  /* ============================================================
-     PROGRESS BAR
-     ============================================================ */
-  .progress-track{
-    position:fixed; top:0; left:0; right:0; height:4px;
-    background:rgba(15,39,68,0.1); z-index:100;
-  }
-  .progress-fill{
-    height:100%; width:0%; background:var(--steel);
-    transition:width 0.35s ease;
-  }
+  .progress-track{ position:fixed; top:0; left:0; right:0; height:4px; background:rgba(15,39,68,0.1); z-index:100; }
+  .progress-fill{ height:100%; width:0%; background:var(--steel); transition:width 0.35s ease; }
 
-  /* ============================================================
-     MINI HEADER
-     ============================================================ */
   header.mini{
     position:fixed; top:4px; left:0; right:0; z-index:90;
     display:flex; align-items:center; justify-content:space-between;
@@ -86,74 +66,45 @@
   }
   .exit-link:hover{ border-color:var(--ink); color:var(--ink); }
 
-  /* ============================================================
-     STAGE / SLIDES
-     ============================================================ */
-  .stage{
-    position:relative;
-    height:100vh; width:100%;
-    overflow:hidden;
-  }
+  .stage{ position:relative; height:100vh; width:100%; overflow:hidden; }
   .slide{
-    position:absolute; inset:0;
-    display:flex; flex-direction:column; justify-content:center;
+    position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center;
     padding:96px clamp(24px,8vw,120px) 0;
-    opacity:0; pointer-events:none;
-    transform:translateY(24px);
+    opacity:0; pointer-events:none; transform:translateY(24px);
     transition:opacity 0.45s ease, transform 0.45s ease;
   }
   .slide.active{ opacity:1; pointer-events:auto; transform:translateY(0); }
-  .slide.leaving-up{ opacity:0; transform:translateY(-24px); }
 
-  .q-eyebrow{
-    font-family:var(--font-mono); font-size:0.78rem; letter-spacing:0.08em;
-    color:var(--steel); margin-bottom:18px; display:block;
-  }
+  .q-eyebrow{ font-family:var(--font-mono); font-size:0.78rem; letter-spacing:0.08em; color:var(--steel); margin-bottom:18px; display:block; }
   .q-label{
     font-family:var(--font-display); font-weight:700; color:var(--ink);
-    font-size:clamp(1.5rem, 4vw, 2.4rem); line-height:1.25; max-width:26ch;
-    margin-bottom:32px;
-  }
-  .q-hint{
-    font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-70);
-    margin-top:-18px; margin-bottom:28px; display:block;
+    font-size:clamp(1.5rem, 4vw, 2.4rem); line-height:1.25; max-width:28ch; margin-bottom:32px;
   }
 
   .field-text{
-    font-family:var(--font-body); font-size:clamp(1.2rem,2.6vw,1.6rem);
-    color:var(--ink); background:transparent; border:none;
-    border-bottom:2px solid var(--ink-40); padding:8px 2px;
-    width:100%; max-width:640px; outline:none;
-    transition:border-color 0.2s;
+    font-family:var(--font-body); font-size:clamp(1.2rem,2.6vw,1.6rem); color:var(--ink);
+    background:transparent; border:none; border-bottom:2px solid var(--ink-40); padding:8px 2px;
+    width:100%; max-width:640px; outline:none; transition:border-color 0.2s;
   }
   .field-text:focus{ border-color:var(--steel); }
   .field-text.field-error{ border-color:var(--error); }
 
   textarea.field-text{
-    resize:none; min-height:140px; line-height:1.6;
-    font-size:clamp(1.05rem,2vw,1.25rem); border:1px solid var(--ink-40); border-radius:2px; padding:16px;
+    resize:none; min-height:140px; line-height:1.6; font-size:clamp(1.05rem,2vw,1.25rem);
+    border:1px solid var(--ink-40); border-radius:2px; padding:16px;
   }
   textarea.field-text:focus{ border-color:var(--steel); }
 
-  .char-count{
-    font-family:var(--font-mono); font-size:0.72rem; color:var(--ink-70);
-    margin-top:8px; text-align:right; max-width:640px;
-  }
+  .char-count{ font-family:var(--font-mono); font-size:0.72rem; color:var(--ink-70); margin-top:8px; text-align:right; max-width:640px; }
   .char-count.over{ color:var(--error); }
 
-  .error-msg{
-    font-family:var(--font-mono); font-size:0.78rem; color:var(--error);
-    margin-top:10px; min-height:1.2em;
-  }
+  .error-msg{ font-family:var(--font-mono); font-size:0.78rem; color:var(--error); margin-top:10px; min-height:1.2em; }
 
-  /* choice options */
   .options{ display:flex; flex-direction:column; gap:12px; max-width:560px; }
   .option{
-    display:flex; align-items:center; gap:14px;
-    border:1px solid var(--ink-40); border-radius:3px;
-    padding:16px 18px; cursor:pointer; background:var(--white);
-    font-size:1.05rem; color:var(--ink); text-align:left;
-    transition:border-color 0.15s, background 0.15s;
+    display:flex; align-items:center; gap:14px; border:1px solid var(--ink-40); border-radius:3px;
+    padding:16px 18px; cursor:pointer; background:var(--white); font-size:1.05rem; color:var(--ink);
+    text-align:left; transition:border-color 0.15s, background 0.15s;
   }
   .option:hover{ border-color:var(--steel); }
   .option.selected{ border-color:var(--steel); background:var(--pale); }
@@ -165,19 +116,6 @@
   .option.selected .key{ border-color:var(--steel); color:var(--steel); }
   .other-input{ margin-top:6px; max-width:560px; }
 
-  /* autocomplete dropdown (college / course of study) */
-  .autocomplete-wrap{ position:relative; max-width:640px; }
-  .suggestions{
-    display:none; position:absolute; left:0; right:0; top:100%; margin-top:4px;
-    background:var(--white); border:1px solid var(--ink-40); border-radius:2px;
-    max-height:240px; overflow-y:auto; z-index:20;
-    box-shadow:0 8px 24px rgba(15,39,68,0.12);
-  }
-  .suggestions.open{ display:block; }
-  .suggestion{ padding:12px 16px; font-size:1rem; color:var(--ink); cursor:pointer; }
-  .suggestion:hover, .suggestion.highlighted{ background:var(--pale); }
-
-  /* nav row (OK button) */
   .nav-row{ display:flex; align-items:center; margin-top:34px; }
   .nav-row > *{ margin-right:16px; }
   .btn-ok{
@@ -188,28 +126,18 @@
   }
   .btn-ok:hover{ background:#0A1A2E; transform:translateY(-1px); }
   .btn-ok:disabled{ background:var(--ink-40); cursor:not-allowed; transform:none; }
-  .key-hint{
-    font-size:0.7rem; border:1px solid rgba(240,240,240,0.5); border-radius:3px;
-    padding:2px 6px; opacity:0.85;
-  }
+  .key-hint{ font-size:0.7rem; border:1px solid rgba(240,240,240,0.5); border-radius:3px; padding:2px 6px; opacity:0.85; }
   .press-enter{ font-family:var(--font-mono); font-size:0.72rem; color:var(--ink-70); }
 
-  /* up/down nav arrows */
-  .arrow-nav{
-    position:fixed; right:clamp(16px,4vw,40px); bottom:32px; z-index:90;
-    display:flex; flex-direction:column; gap:8px;
-  }
+  .arrow-nav{ position:fixed; right:clamp(16px,4vw,40px); bottom:32px; z-index:90; display:flex; flex-direction:column; gap:8px; }
   .arrow-btn{
-    width:42px; height:42px; border-radius:3px; border:1px solid var(--ink-40);
-    background:var(--white); cursor:pointer; display:flex; align-items:center; justify-content:center;
-    color:var(--ink); font-size:1.1rem; transition:border-color 0.2s, opacity 0.2s;
+    width:42px; height:42px; border-radius:3px; border:1px solid var(--ink-40); background:var(--white);
+    cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--ink); font-size:1.1rem;
+    transition:border-color 0.2s, opacity 0.2s;
   }
   .arrow-btn:hover{ border-color:var(--steel); }
   .arrow-btn:disabled{ opacity:0.35; cursor:not-allowed; }
 
-  /* ============================================================
-     INTRO / SUCCESS / SUBMITTING screens
-     ============================================================ */
   .full-screen{
     position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center;
     padding:96px clamp(24px,8vw,120px) 0; background:var(--pale);
@@ -218,7 +146,7 @@
   .full-screen.active{ opacity:1; pointer-events:auto; }
   .full-screen h1{
     font-family:var(--font-display); font-weight:700; color:var(--ink);
-    font-size:clamp(2rem,5vw,3.2rem); line-height:1.15; max-width:16ch; margin:0 0 24px;
+    font-size:clamp(2rem,5vw,3.2rem); line-height:1.15; max-width:18ch; margin:0 0 24px;
   }
   .full-screen p{ font-size:1.15rem; color:var(--ink-70); max-width:52ch; line-height:1.6; margin:0 0 28px; }
   .spinner{
@@ -237,54 +165,39 @@
   <a href="index.html" class="exit-link">Exit</a>
 </header>
 
-<!-- ============================================================
-     INTRO SCREEN
-     ============================================================ -->
 <div class="full-screen active" id="screen-intro">
-  <span class="q-eyebrow">Cohort II &middot; Student Application</span>
-  <h1>Let's get your application started.</h1>
-  <p>Twelve questions, about eight minutes. There's no need to finish in one sitting - just don't close this tab, or you'll need to start again.</p>
+  <span class="q-eyebrow">Cohort II &middot; Startup Registration</span>
+  <h1>Tell us about your startup.</h1>
+  <p>Eleven questions, about five minutes. Four early-stage companies join each cohort as live subjects for the student teams' investment analysis - if that sounds useful to you, we'd like to hear from you.</p>
   <div class="nav-row">
     <button class="btn-ok" id="start-btn">Start <span class="key-hint">&#8629;</span></button>
   </div>
 </div>
 
-<!-- ============================================================
-     SUBMITTING SCREEN
-     ============================================================ -->
 <div class="full-screen" id="screen-submitting">
   <div class="spinner"></div>
-  <h1>Sending your application...</h1>
+  <h1>Sending...</h1>
   <p>This only takes a second.</p>
 </div>
 
-<!-- ============================================================
-     SUCCESS SCREEN
-     ============================================================ -->
 <div class="full-screen" id="screen-success">
-  <span class="q-eyebrow">Application received</span>
-  <h1>Thanks - you're in the pile.</h1>
-  <p>We'll be in touch by email once applications close. In the meantime, feel free to follow Venture Academy for updates.</p>
+  <span class="q-eyebrow">Registered</span>
+  <h1>Thanks - we'll be in touch.</h1>
+  <p>We review every startup that registers interest as we build each cohort. If it looks like a fit, someone from the Venture Academy team will reach out directly.</p>
   <div class="nav-row">
     <a href="index.html" class="btn-ok" style="text-decoration:none;">Back to the site</a>
   </div>
 </div>
 
-<!-- ============================================================
-     ERROR SCREEN
-     ============================================================ -->
 <div class="full-screen" id="screen-error">
   <span class="q-eyebrow" style="color:var(--error);">Something went wrong</span>
-  <h1>Your application didn't send.</h1>
-  <p>This is usually a connection hiccup. Your answers are still here - just try again, or email them to us directly at <a href="mailto:info@ventureacademy.co.uk">info@ventureacademy.co.uk</a> if it keeps happening.</p>
+  <h1>That didn't send.</h1>
+  <p>This is usually a connection hiccup. Your answers are still here - just try again, or email us directly at <a href="mailto:info@ventureacademy.co.uk">info@ventureacademy.co.uk</a> if it keeps happening.</p>
   <div class="nav-row">
     <button class="btn-ok" id="retry-btn">Try again</button>
   </div>
 </div>
 
-<!-- ============================================================
-     QUESTION STAGE
-     ============================================================ -->
 <main class="stage" id="stage"></main>
 
 <div class="arrow-nav" id="arrow-nav" style="display:none;">
@@ -292,74 +205,39 @@
   <button class="arrow-btn" id="arrow-down" aria-label="Next question">&darr;</button>
 </div>
 
-<!-- honeypot field - real users never see or fill this in -->
 <input type="text" class="hp" id="hp-field" tabindex="-1" autocomplete="off">
 
 <script>
 /* ============================================================
-   SETUP REQUIRED - see the setup guide for full steps:
-   1. Create a Google Sheet
-   2. Extensions -> Apps Script -> paste the provided script
+   SETUP REQUIRED - same pattern as apply.html:
+   1. Create a Google Sheet (a separate one from the student
+      applications sheet keeps the two datasets apart)
+   2. Extensions -> Apps Script -> paste the startup version
+      of the script
    3. Deploy as a Web App, copy the URL, paste it below
    ============================================================ */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzC2VNa5xxO8QvGZl-Z98XFjqoavahsaaDlXoRCMokxsp99zGuqWMjty7_ZWCi5Bw_b3g/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzS3X1l5ZuE7EUlXiVuqxbjJ4CPetgp5dN4BVs_ncTIz0yTn99-S2IX89U9iTwB-ZEq/exec";
 
 /* ============================================================
    QUESTIONS - edit this list to change the form itself.
-   Adding, removing or reordering a question only needs a
-   change here; the rest of the page builds itself from it.
    ============================================================ */
-/* ============================================================
-   REFERENCE LISTS - verified against cam.ac.uk
-   Colleges: the University's official list of 31.
-   Courses: the official undergraduate Triposes, plus common
-   postgraduate qualification types since applicants include
-   postgrads and PhDs. "Other" is always offered as a fallback
-   for anything genuinely not on the list.
-   Update these two lists if Cambridge adds/renames a course or
-   college - nothing else needs to change.
-   ============================================================ */
-const CAMBRIDGE_COLLEGES = [
-  "Christ's", "Churchill", "Clare", "Clare Hall", "Corpus Christi", "Darwin",
-  "Downing", "Emmanuel", "Fitzwilliam", "Girton", "Gonville & Caius", "Homerton",
-  "Hughes Hall", "Jesus", "King's", "Lucy Cavendish", "Magdalene", "Murray Edwards",
-  "Newnham", "Pembroke", "Peterhouse", "Queens'", "Robinson", "Selwyn",
-  "Sidney Sussex", "St Catharine's", "St Edmund's", "St John's", "Trinity",
-  "Trinity Hall", "Wolfson"
-];
-
-const CAMBRIDGE_COURSES = [
-  "Anglo-Saxon, Norse, and Celtic", "Archaeology", "Architecture",
-  "Asian and Middle Eastern Studies", "Chemical Engineering and Biotechnology",
-  "Classics", "Computer Science", "Design", "Economics", "Education", "Engineering",
-  "English", "Environment, Law, and Economics", "Foundation Year", "Geography",
-  "History", "History and Modern Languages", "History and Politics", "History of Art",
-  "Human, Social, and Political Sciences", "Law", "Linguistics",
-  "Linguistics and Modern Languages", "Mathematics", "Medicine",
-  "Medicine (Graduate course)", "Modern and Medieval Languages", "Music",
-  "Natural Sciences", "Philosophy", "Psychological and Behavioural Sciences",
-  "Theology, Religion, and Philosophy of Religion", "Veterinary Medicine",
-  "MBA", "MPhil (any subject)", "MSt (any subject)", "MASt (any subject)",
-  "LLM", "PhD (any subject)", "Other"
-];
-
 const QUESTIONS = [
-  { id:'firstName', type:'text', label:"What's your first name?", required:true },
-  { id:'lastName', type:'text', label:"And your last name?", required:true },
+  { id:'companyName', type:'text', label:"What's your company called?", required:true },
+  { id:'website', type:'text', label:"Company website or product link?", required:true },
+  { id:'pitch', type:'textarea', label:"In a sentence or two, what does your company do?", maxLength:280, required:true },
+  { id:'contactName', type:'text', label:"What's your name?", required:true },
+  { id:'role', type:'text', label:"What's your role at the company?", required:true },
   { id:'email', type:'email', label:"What's the best email to reach you on?", required:true },
-  { id:'college', type:'autocomplete', label:"Which college are you a part of?", required:true, options:CAMBRIDGE_COLLEGES },
-  { id:'course', type:'autocomplete', label:"What's your course of study or area of research?", required:true, options:CAMBRIDGE_COURSES, otherFollowup:true },
-  { id:'stage', type:'choice', label:"What stage are you?", required:true, options:['Undergrad','Postgrad','PhD'], other:true },
-  { id:'yearOfStudy', type:'text', label:"What year of study or research are you in?", required:true },
-  { id:'gender', type:'choice', label:"Which gender do you identify with?", required:true, options:['Female','Male','Non-binary','Prefer not to say'], other:true },
-  { id:'interests', type:'choice', label:"Which of these best describe your interests?", required:true, options:['Entrepreneurship','Investing','Both'], other:true },
-  { id:'founderAnswer', type:'textarea', label:"Tell us about a company or founder you find fascinating, and why.", maxLength:750, required:true },
-  { id:'animalAnswer', type:'textarea', label:"If you were investing in a startup, which animal's characteristics would you most want that company to embody - and why would those traits make it a good investment?", required:true },
-  { id:'programmeQuestion', type:'textarea', label:"What specific question do you hope this programme will help you answer?", required:false }
+  { id:'stage', type:'choice', label:"What stage is your company at?", required:true, options:['Idea stage','Pre-seed','Seed','Series A or later'], other:true },
+  { id:'raised', type:'text', label:"How much have you raised to date, if any?", required:false },
+  { id:'sector', type:'text', label:"Which sector or industry best describes what you do?", required:true },
+  { id:'whyInterested', type:'textarea', label:"Why are you interested in partnering with Venture Academy?", required:true },
+  { id:'anythingElse', type:'textarea', label:"Anything else we should know?", required:false }
 ];
 
 /* ============================================================
-   ENGINE - shouldn't need editing
+   ENGINE - shared logic with apply.html, kept here so this
+   page has no dependency on that file.
    ============================================================ */
 const stageEl = document.getElementById('stage');
 const progressFill = document.getElementById('progress-fill');
@@ -367,11 +245,11 @@ const arrowNav = document.getElementById('arrow-nav');
 const arrowUp = document.getElementById('arrow-up');
 const arrowDown = document.getElementById('arrow-down');
 
-let current = -1; // -1 = intro screen
+let current = -1;
 const answers = {};
 const slideEls = [];
 
-function letterFor(i){ return String.fromCharCode(65 + i); } // A, B, C...
+function letterFor(i){ return String.fromCharCode(65 + i); }
 
 function buildSlide(q, index){
   const el = document.createElement('section');
@@ -401,89 +279,6 @@ function buildSlide(q, index){
     el.appendChild(input);
     el.appendChild(errorEl());
     el.appendChild(navRow('OK'));
-  }
-
-  if (q.type === 'autocomplete'){
-    const wrap = document.createElement('div');
-    wrap.className = 'autocomplete-wrap';
-
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.className = 'field-text';
-    input.id = q.id;
-    input.autocomplete = 'off';
-    input.placeholder = 'Start typing...';
-    wrap.appendChild(input);
-
-    const suggestions = document.createElement('div');
-    suggestions.className = 'suggestions';
-    suggestions.id = q.id + '-suggestions';
-    wrap.appendChild(suggestions);
-    el.appendChild(wrap);
-
-    var highlighted = -1;
-
-    var renderSuggestions = function(){
-      var val = input.value.trim().toLowerCase();
-      suggestions.innerHTML = '';
-      highlighted = -1;
-      if (!val){ suggestions.classList.remove('open'); return; }
-      var matches = q.options.filter(function(o){ return o.toLowerCase().indexOf(val) !== -1; }).slice(0, 8);
-      if (!matches.length){ suggestions.classList.remove('open'); return; }
-      matches.forEach(function(m, i){
-        var item = document.createElement('div');
-        item.className = 'suggestion';
-        item.textContent = m;
-        item.addEventListener('mousedown', function(e){
-          e.preventDefault();
-          input.value = m;
-          suggestions.classList.remove('open');
-          setTimeout(function(){ attemptAdvance(); }, 150);
-        });
-        suggestions.appendChild(item);
-      });
-      suggestions.classList.add('open');
-    };
-
-    var setHighlight = function(i){
-      var items = suggestions.querySelectorAll('.suggestion');
-      items.forEach(function(el2){ el2.classList.remove('highlighted'); });
-      if (items[i]){ items[i].classList.add('highlighted'); items[i].scrollIntoView({block:'nearest'}); }
-      highlighted = i;
-    };
-
-    input.addEventListener('input', renderSuggestions);
-    input.addEventListener('focus', renderSuggestions);
-    input.addEventListener('blur', function(){ setTimeout(function(){ suggestions.classList.remove('open'); }, 200); });
-    input.addEventListener('keydown', function(e){
-      var items = suggestions.querySelectorAll('.suggestion');
-      if (e.key === 'ArrowDown'){ e.preventDefault(); if (items.length) setHighlight(Math.min(highlighted+1, items.length-1)); }
-      else if (e.key === 'ArrowUp'){ e.preventDefault(); if (items.length) setHighlight(Math.max(highlighted-1, 0)); }
-      else if (e.key === 'Enter'){
-        e.preventDefault();
-        if (highlighted >= 0 && items[highlighted]){ input.value = items[highlighted].textContent; suggestions.classList.remove('open'); }
-        attemptAdvance();
-      } else if (e.key === 'Escape'){ suggestions.classList.remove('open'); }
-    });
-
-    el.appendChild(errorEl());
-    el.appendChild(navRow('OK'));
-
-    if (q.otherFollowup){
-      const otherInput = document.createElement('input');
-      otherInput.type = 'text';
-      otherInput.className = 'field-text other-input';
-      otherInput.id = q.id + '-other';
-      otherInput.placeholder = 'Please specify your course';
-      otherInput.style.display = 'none';
-      otherInput.addEventListener('keydown', function(e){
-        if (e.key === 'Enter'){ e.preventDefault(); attemptAdvance(); }
-      });
-      el.insertBefore(otherInput, el.querySelector('.error-msg'));
-      input.addEventListener('input', function(){
-        otherInput.style.display = input.value.trim().toLowerCase() === 'other' ? 'block' : 'none';
-      });
-    }
   }
 
   if (q.type === 'textarea'){
@@ -597,7 +392,6 @@ QUESTIONS.forEach(function(q, i){
   slideEls.push(el);
 });
 
-// global number-key shortcut for choice questions
 document.addEventListener('keydown', function(e){
   if (current < 0 || current >= QUESTIONS.length) return;
   const q = QUESTIONS[current];
@@ -616,9 +410,7 @@ function updateProgress(){
 }
 
 function showSlide(index){
-  slideEls.forEach(function(el, i){
-    el.classList.toggle('active', i === index);
-  });
+  slideEls.forEach(function(el, i){ el.classList.toggle('active', i === index); });
   current = index;
   updateProgress();
   arrowNav.style.display = 'flex';
@@ -650,25 +442,6 @@ function validate(q){
 
   const field = document.getElementById(q.id);
   const val = field.value.trim();
-
-  if (q.type === 'autocomplete'){
-    if (!val && q.required === false){ answers[q.id] = ''; field.classList.remove('field-error'); return true; }
-    var validMatch = q.options.filter(function(o){ return o.toLowerCase() === val.toLowerCase(); })[0];
-    if (!validMatch){
-      field.classList.add('field-error');
-      errorBox.textContent = 'Please select an option from the list.';
-      return false;
-    }
-    if (validMatch.toLowerCase() === 'other' && q.otherFollowup){
-      var otherVal = document.getElementById(q.id + '-other').value.trim();
-      if (!otherVal){ errorBox.textContent = 'Please tell us what course that is.'; return false; }
-      answers[q.id + 'Other'] = otherVal;
-    }
-    field.classList.remove('field-error');
-    answers[q.id] = validMatch;
-    return true;
-  }
-
   if (q.required && !val){
     field.classList.add('field-error');
     errorBox.textContent = 'This one\'s required to continue.';
@@ -691,10 +464,7 @@ function attemptAdvance(){
 }
 
 function goNext(){
-  if (current === QUESTIONS.length - 1){
-    submitApplication();
-    return;
-  }
+  if (current === QUESTIONS.length - 1){ submitApplication(); return; }
   showSlide(current + 1);
 }
 
@@ -732,7 +502,7 @@ function switchScreen(showId, hideId){
 }
 
 function submitApplication(){
-  if (document.getElementById('hp-field').value){ return; } // bot caught by honeypot
+  if (document.getElementById('hp-field').value){ return; }
 
   slideEls[current].classList.remove('active');
   switchScreen('screen-submitting', null);
@@ -740,7 +510,7 @@ function submitApplication(){
   const payload = Object.assign({ submittedAt: new Date().toISOString() }, answers);
 
   if (!SCRIPT_URL || SCRIPT_URL.indexOf('PASTE_YOUR') === 0){
-    console.error('Venture Academy application form: SCRIPT_URL has not been set yet. See the setup guide.');
+    console.error('Venture Academy startup form: SCRIPT_URL has not been set yet. See the setup guide.');
     switchScreen('screen-error', 'screen-submitting');
     return;
   }
@@ -753,7 +523,7 @@ function submitApplication(){
   }).then(function(){
     switchScreen('screen-success', 'screen-submitting');
   }).catch(function(err){
-    console.error('Venture Academy application form submission failed:', err);
+    console.error('Venture Academy startup form submission failed:', err);
     switchScreen('screen-error', 'screen-submitting');
   });
 }
