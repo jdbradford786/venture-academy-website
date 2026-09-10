@@ -140,6 +140,7 @@
   }
   nav.links{ display:flex; align-items:center; }
   nav.links > a{ margin-right:32px; }
+  nav.links > a:last-child{ margin-right:0; }
   nav.links a{
     font-family:var(--font-mono);
     font-size:0.78rem;
@@ -152,21 +153,6 @@
     transition:border-color 0.2s, color 0.2s;
   }
   nav.links a:hover{ color:var(--ink); border-color:var(--steel); }
-  nav.links a.nav-cta{
-    font-family:var(--font-mono);
-    font-size:0.75rem;
-    letter-spacing:0.05em;
-    text-transform:uppercase;
-    text-decoration:none;
-    color:var(--white);
-    background:var(--ink);
-    padding:10px 18px;
-    border-radius:2px;
-    white-space:nowrap;
-    border-bottom:none;
-    transition:background 0.2s;
-  }
-  nav.links a.nav-cta:hover{ background:#0A1A2E; color:var(--white); }
 
   .menu-toggle{ display:none; }
   .hamburger{ display:none; }
@@ -209,6 +195,10 @@
   .btn-primary:hover{ background:#0A1A2E; transform:translateY(-1px); }
   .btn-ghost{ background:transparent; color:var(--ink); border:1px solid var(--ink-40); }
   .btn-ghost:hover{ border-color:var(--ink); transform:translateY(-1px); }
+  .btn-disabled{
+    background:transparent; color:var(--ink); border:1px solid var(--ink-40);
+    cursor:not-allowed; user-select:none;
+  }
 
   /* Marquee ticker */
   .ticker{
@@ -328,18 +318,6 @@
   .stat .label{ display:block; margin-top:8px; font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--steel); }
 
   .footnote-line{ margin-left:104px; font-size:0.98rem; color:var(--ink-70); line-height:1.7; max-width:70ch; margin-bottom:40px; }
-
-  .quote-row{ margin-left:104px; display:flex; min-height:140px; }
-  blockquote{ flex:1; margin:0; padding:28px 28px 24px; background:var(--white); border-left:2px solid var(--steel); }
-  blockquote:not(:last-child){ margin-right:32px; }
-  blockquote p{ font-family:var(--font-display); font-style:italic; font-weight:500; font-size:1.12rem; line-height:1.6; color:var(--ink); margin-bottom:14px; }
-  blockquote cite{ font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--steel); font-style:normal; }
-
-  .prize-note{
-    margin-left:104px; margin-top:32px;
-    font-family:var(--font-mono); font-size:0.82rem; letter-spacing:0.02em; color:var(--ink);
-    padding:16px 20px; border:1px dashed var(--steel-soft); max-width:70ch;
-  }
 
   /* ---------- Chapter III: Journey ---------- */
   .schedule{ margin-left:104px; display:flex; margin-bottom:48px; border:1px solid rgba(15,39,68,0.16); }
@@ -463,14 +441,13 @@
     .chapter-head{ flex-direction:column; gap:8px; }
     .folio{ flex-basis:auto; }
     .folio::after{ display:none; }
-    .chapter-intro,.stat-row,.quote-row,.grid-3,.grid-2,.schedule,.faculty-grid,.panel-list,.tbc-note,.apply-cards,.dates-list,.partners,.footnote-line,.prize-note{
+    .chapter-intro,.stat-row,.grid-3,.grid-2,.schedule,.faculty-grid,.panel-list,.tbc-note,.apply-cards,.dates-list,.partners,.footnote-line{
       margin-left:0;
     }
-    .grid-3,.grid-2,.stat-row,.quote-row,.faculty-grid,.apply-cards{ flex-direction:column; }
-    .cell,.stat,.faculty-card,blockquote,.apply-card{ border-right:none !important; border-bottom:1px solid rgba(15,39,68,0.16); margin-right:0 !important; }
-    .cell:last-child,.stat:last-child,.faculty-card:last-child,blockquote:last-child,.apply-card:last-child{ border-bottom:none; }
+    .grid-3,.grid-2,.stat-row,.faculty-grid,.apply-cards{ flex-direction:column; }
+    .cell,.stat,.faculty-card,.apply-card{ border-right:none !important; border-bottom:1px solid rgba(15,39,68,0.16); margin-right:0 !important; }
+    .cell:last-child,.stat:last-child,.faculty-card:last-child,.apply-card:last-child{ border-bottom:none; }
     .apply-card:not(:last-child){ margin-bottom:24px; }
-    blockquote:not(:last-child){ margin-bottom:24px; }
     .schedule{ flex-direction:column; }
     .schedule .slot{ border-right:none; border-bottom:1px solid rgba(15,39,68,0.16); }
     .schedule .slot:last-child{ border-bottom:none; }
@@ -517,11 +494,6 @@
 
     { "num": "25",  "label": "Students selected" },
     { "num": "4.83/5", "label": "Average rating" }
-  ],
-
-  "quotes": [
-    { "text": "I got a good sense of how venture decisions were made, and how important the team and the narrative really are.", "cite": "Cohort I student" },
-    { "text": "VC is hard - much harder than angel investing. The risk level is way higher than I ever expected.", "cite": "Cohort I founder" }
   ],
 
   "faculty": [
@@ -583,7 +555,6 @@ window.PHOTOS = {
       <a href="#results" id="nav-results">Cohort I</a>
       <a href="#journey" id="nav-journey">Cohort II</a>
       <a href="#faculty">Faculty</a>
-      <a href="#apply" class="nav-cta">Apply</a>
     </nav>
 
     <input type="checkbox" id="menu-toggle" class="menu-toggle" aria-hidden="true">
@@ -612,7 +583,7 @@ window.PHOTOS = {
 
     <p class="sub">Twenty-five students. Four early-stage startups. One Investment Committee. An eight-week dive into venture capital, taught by the people who do it for a living.</p>
     <div class="hero-actions">
-      <a href="#apply" class="btn btn-primary">Apply for <span id="hero-cta-cohort">Cohort II</span></a>
+      <span class="btn btn-disabled" aria-disabled="true">Coming Soon</span>
       <a href="#journey" class="btn btn-ghost">See the eight weeks</a>
     </div>
   </div>
@@ -688,11 +659,6 @@ window.PHOTOS = {
     <div class="stat-row reveal" id="stats-row"></div>
 
     <p class="footnote-line reveal">23 of 25 students completed the full eight weeks and graduated as Venture Fellows. Every one of them told us what worked and what didn't - a 100% response rate on our closing survey.</p>
-
-    <!-- populated from the content config above -->
-    <div class="quote-row reveal" id="quote-row"></div>
-
-    <p class="prize-note reveal">Each cohort closes with a live Investment Committee. In <span id="prize-year">2026</span>, the winning startup won £10,000 on the spot.</p>
   </div>
 </section>
 
@@ -780,7 +746,7 @@ window.PHOTOS = {
         <span class="tag">Students</span>
         <h3>Apply as a student</h3>
         <p>Open to Cambridge University students. No finance background required, just curiosity and a willingness to do the work.</p>
-        <a href="#" id="apply-student-link" class="btn btn-primary">Apply as a Student</a>
+        <span id="apply-student-link" class="btn btn-disabled" aria-disabled="true">Coming Soon</span>
       </div>
       <div class="apply-card">
         <span class="tag">Startups</span>
@@ -850,7 +816,6 @@ window.PHOTOS = {
     try {
       // Cohort / term mentions scattered through the copy
       setText('hero-eyebrow', 'Trinity College, Cambridge · ' + data.term);
-      setText('hero-cta-cohort', data.cohortLabel);
       setText('programme-cohort', data.cohortLabel);
       setText('journey-kicker', 'Eight Weeks · ' + data.term);
       setText('journey-heading', data.cohortLabel);
@@ -858,7 +823,6 @@ window.PHOTOS = {
       setText('kickoff-date', data.dates.kickoff);
       setText('ic-date', data.dates.icEvening);
       setText('results-kicker', data.priorCohortLabel + ' · ' + data.priorTerm);
-      setText('prize-year', data.priorYear);
       setText('panel-label', data.priorYear + ' Investment Committee panel');
       setText('tbc-cohort', data.cohortLabel);
       setText('tbc-term', data.term);
@@ -874,7 +838,6 @@ window.PHOTOS = {
       setText('nav-journey-f', data.cohortLabel);
 
       // Apply links
-      setHref('apply-student-link', data.applyLinks.student);
       setHref('apply-startup-link', data.applyLinks.startup);
 
       // Stats
@@ -882,14 +845,6 @@ window.PHOTOS = {
       if (statsRow && data.stats && data.stats.length){
         statsRow.innerHTML = data.stats.map(function(s){
           return '<div class="stat"><span class="num">'+esc(s.num)+'</span><span class="label">'+esc(s.label)+'</span></div>';
-        }).join('');
-      }
-
-      // Quotes
-      var quoteRow = document.getElementById('quote-row');
-      if (quoteRow && data.quotes && data.quotes.length){
-        quoteRow.innerHTML = data.quotes.map(function(q){
-          return '<blockquote><p>"'+esc(q.text)+'"</p><cite>- '+esc(q.cite)+'</cite></blockquote>';
         }).join('');
       }
 
