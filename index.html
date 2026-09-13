@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Venture Academy - Cohort II, Lent Term 2027</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%0A%3Crect%20width%3D%22100%22%20height%3D%22100%22%20rx%3D%2220%22%20fill%3D%22%230F2744%22/%3E%0A%3Cpath%20d%3D%22M%2025%2028%20L%2050%2072%20L%2075%2028%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%2213%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20fill%3D%22none%22/%3E%0A%3C/svg%3E">
 <meta name="description" content="Venture Academy is an eight-week venture capital programme in association with Trinity College, Cambridge. Cohort II opens January 2027.">
 
 <!-- ============================================================
@@ -429,7 +430,7 @@
     .hamburger span::before{ top:-6px; } .hamburger span::after{ top:6px; }
 
     .mobile-menu{
-      display:none; position:fixed; inset:76px 0 0 0; z-index:49;
+      display:none; position:fixed; inset:76px 0 0 0; z-index:200;
       background:var(--pale); padding:32px var(--gutter);
     }
     .menu-toggle:checked ~ .mobile-menu{ display:block; }
@@ -557,17 +558,22 @@ window.PHOTOS = {
       <a href="#faculty">Faculty</a>
     </nav>
 
-    <input type="checkbox" id="menu-toggle" class="menu-toggle" aria-hidden="true">
     <label for="menu-toggle" class="hamburger" aria-label="Open menu"><span></span></label>
   </div>
-  <div class="mobile-menu">
-    <a href="#programme">Programme</a>
-    <a href="#results" id="nav-results-m">Cohort I</a>
-    <a href="#journey" id="nav-journey-m">Cohort II</a>
-    <a href="#faculty">Faculty</a>
-    <a href="#apply">Apply</a>
-  </div>
 </header>
+
+<!-- Kept outside <header> deliberately: header uses backdrop-filter,
+     which would otherwise confine this fixed-position panel to the
+     header's own small box instead of the full viewport. The label
+     above still works from inside the header via the for/id link. -->
+<input type="checkbox" id="menu-toggle" class="menu-toggle" aria-hidden="true">
+<div class="mobile-menu">
+  <a href="#programme">Programme</a>
+  <a href="#results" id="nav-results-m">Cohort I</a>
+  <a href="#journey" id="nav-journey-m">Cohort II</a>
+  <a href="#faculty">Faculty</a>
+  <a href="#apply">Apply</a>
+</div>
 
 <!-- ============================================================
      HERO — the wordmark itself is the hero visual
