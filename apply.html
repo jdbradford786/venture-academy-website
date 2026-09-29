@@ -354,8 +354,10 @@ const QUESTIONS = [
   { id:'yearOfStudy', type:'text', label:"What year of study or research are you in?", required:true },
   { id:'gender', type:'choice', label:"Which gender do you identify with?", required:true, options:['Female','Male','Non-binary','Prefer not to say'], other:true },
   { id:'interests', type:'choice', label:"Which of these best describe your interests?", required:true, options:['Entrepreneurship','Investing','Both'], other:true },
-  { id:'founderAnswer', type:'textarea', label:"Tell us about a company or founder you find fascinating, and why.", maxLength:750, required:true },
-  { id:'animalAnswer', type:'textarea', label:"If you were investing in a startup, which animal's characteristics would you most want that company to embody - and why would those traits make it a good investment?", required:true },
+  { id:'builderStory', type:'textarea', label:"Tell us about something you started or made happen that nobody asked you to do. What was it, when did you do it, and what came of it?", hint:"Please include at least one number - people involved, customers, money raised or earned, or hours spent. Scale doesn't matter: a society, a side hustle, an event or a tool you built for friends all count.", maxLength:750, required:true },
+  { id:'selfTaught', type:'textarea', label:"What have you taught yourself in the last 12 months that no course required? How did you go about it, and what did you make or do with it?", maxLength:500, required:true },
+  { id:'proofLink', type:'url', label:"Share a link to something you've built, written, organised or sold.", hint:"Skip this if you have nothing public - the next question covers that.", required:false },
+  { id:'proofNote', type:'textarea', label:"Tell us briefly what it shows about you. If you didn't share a link, tell us what has stopped you so far.", maxLength:300, required:true },
   { id:'programmeQuestion', type:'textarea', label:"What specific question do you hope this programme will help you answer?", required:false }
 ];
 
@@ -390,9 +392,17 @@ function buildSlide(q, index){
   label.setAttribute('for', q.id);
   el.appendChild(label);
 
-  if (q.type === 'text' || q.type === 'email'){
+  if (q.hint){
+    const hint = document.createElement('span');
+    hint.className = 'q-hint';
+    hint.textContent = q.hint;
+    el.appendChild(hint);
+  }
+
+  if (q.type === 'text' || q.type === 'email' || q.type === 'url'){
     const input = document.createElement('input');
-    input.type = q.type === 'email' ? 'email' : 'text';
+    input.type = q.type === 'email' ? 'email' : (q.type === 'url' ? 'url' : 'text');
+    if (q.type === 'url') input.placeholder = 'https://';
     input.className = 'field-text';
     input.id = q.id;
     input.autocomplete = q.type === 'email' ? 'email' : 'off';
@@ -627,7 +637,7 @@ function showSlide(index){
   arrowDown.disabled = false;
   const q = QUESTIONS[index];
   const focusEl = document.getElementById(q.id);
-  if (focusEl && (q.type === 'text' || q.type === 'email' || q.type === 'textarea')){
+  if (focusEl && (q.type === 'text' || q.type === 'email' || q.type === 'url' || q.type === 'textarea')){
     setTimeout(function(){ focusEl.focus(); }, 300);
   }
 }
@@ -678,6 +688,11 @@ function validate(q){
   if (q.type === 'email' && val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)){
     field.classList.add('field-error');
     errorBox.textContent = 'That email doesn\'t look quite right.';
+    return false;
+  }
+  if (q.type === 'url' && val && !/^(https?:\/\/)?[^\s.]+\.[^\s]+$/i.test(val)){
+    field.classList.add('field-error');
+    errorBox.textContent = 'That link doesn\'t look quite right - check it and try again.';
     return false;
   }
   field.classList.remove('field-error');
