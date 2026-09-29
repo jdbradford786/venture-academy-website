@@ -118,6 +118,7 @@
   .q-hint{
     font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-70);
     margin-top:-18px; margin-bottom:28px; display:block;
+    max-width:640px; line-height:1.6;
   }
 
   .field-text{
@@ -244,7 +245,7 @@
 <div class="full-screen active" id="screen-intro">
   <span class="q-eyebrow">Cohort II &middot; Student Application</span>
   <h1>Let's get your application started.</h1>
-  <p>Twelve questions, about eight minutes. There's no need to finish in one sitting - just don't close this tab, or you'll need to start again.</p>
+  <p>Thirteen questions, about eight minutes. There's no need to finish in one sitting - just don't close this tab, or you'll need to start again.</p>
   <div class="nav-row">
     <button class="btn-ok" id="start-btn">Start <span class="key-hint">&#8629;</span></button>
   </div>
@@ -352,12 +353,11 @@ const QUESTIONS = [
   { id:'course', type:'autocomplete', label:"What's your course of study or area of research?", required:true, options:CAMBRIDGE_COURSES, otherFollowup:true },
   { id:'stage', type:'choice', label:"What stage are you?", required:true, options:['Undergrad','Postgrad','PhD'], other:true },
   { id:'yearOfStudy', type:'text', label:"What year of study or research are you in?", required:true },
-  { id:'gender', type:'choice', label:"Which gender do you identify with?", required:true, options:['Female','Male','Non-binary','Prefer not to say'], other:true },
-  { id:'interests', type:'choice', label:"Which of these best describe your interests?", required:true, options:['Entrepreneurship','Investing','Both'], other:true },
-  { id:'builderStory', type:'textarea', label:"Tell us about something you started or made happen that nobody asked you to do. What was it, when did you do it, and what came of it?", hint:"Please include at least one number - people involved, customers, money raised or earned, or hours spent. Scale doesn't matter: a society, a side hustle, an event or a tool you built for friends all count.", maxLength:750, required:true },
-  { id:'selfTaught', type:'textarea', label:"What have you taught yourself in the last 12 months that no course required? How did you go about it, and what did you make or do with it?", maxLength:500, required:true },
-  { id:'proofLink', type:'url', label:"Share a link to something you've built, written, organised or sold.", hint:"Skip this if you have nothing public - the next question covers that.", required:false },
-  { id:'proofNote', type:'textarea', label:"Tell us briefly what it shows about you. If you didn't share a link, tell us what has stopped you so far.", maxLength:300, required:true },
+  { id:'gender', type:'choice', label:"Which gender do you identify with?", required:true, options:['Female','Male','Non-binary','Prefer not to say'] },
+  { id:'interests', type:'choice', label:"Which of these best describe your interests?", required:true, options:['Entrepreneurship','Investing','Both'] },
+  { id:'builderStory', type:'textarea', label:"Tell us about something you started or made happen that nobody asked you to do.", hint:"What was it, when did you do it, and what came of it? Please include at least one number - people involved, customers, money raised or earned, or hours spent. Scale doesn't matter: a society, a side hustle, an event or a tool you built for friends all count.", maxLength:750, required:true },
+  { id:'proofLink', type:'url', label:"Is there a link that shows what you just described?", hint:"A website, repo, shop, event or society page, social post, press mention or photos - anything that lets us see it for ourselves. If nothing is online, leave this blank.", required:false },
+  { id:'selfTaught', type:'textarea', label:"What have you taught yourself in the last 12 months that no course required?", hint:"How did you go about it, and what did you make or do with it?", maxLength:500, required:true },
   { id:'programmeQuestion', type:'textarea', label:"What specific question do you hope this programme will help you answer?", required:false }
 ];
 
