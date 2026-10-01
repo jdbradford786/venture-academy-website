@@ -119,6 +119,7 @@
     font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-70);
     margin-top:-18px; margin-bottom:28px; display:block;
     max-width:640px; line-height:1.6;
+    white-space:pre-line; /* lets a hint use \n for paragraph breaks */
   }
 
   .field-text{
@@ -245,7 +246,8 @@
 <div class="full-screen active" id="screen-intro">
   <span class="q-eyebrow">Cohort II &middot; Student Application</span>
   <h1>Let's get your application started.</h1>
-  <p>Thirteen questions, about eight minutes. There's no need to finish in one sitting - just don't close this tab, or you'll need to start again.</p>
+  <p>Venture Academy runs every Wednesday evening from 20 January to 10 March 2027, and we ask everyone who takes a place to be there for all eight sessions. Places are very limited, and your team, your startup and our visiting investors will be counting on you each week - so please only apply if you can make that commitment.</p>
+  <p>Fourteen questions, about eight minutes. There's no need to finish in one sitting - just don't close this tab, or you'll need to start again.</p>
   <div class="nav-row">
     <button class="btn-ok" id="start-btn">Start <span class="key-hint">&#8629;</span></button>
   </div>
@@ -336,23 +338,24 @@ const CAMBRIDGE_COURSES = [
   "Classics", "Computer Science", "Design", "Economics", "Education", "Engineering",
   "English", "Environment, Law, and Economics", "Foundation Year", "Geography",
   "History", "History and Modern Languages", "History and Politics", "History of Art",
-  "Human, Social, and Political Sciences", "Law", "Linguistics",
+  "Human, Social, and Political Sciences", "Land Economy", "Law", "Linguistics",
   "Linguistics and Modern Languages", "Mathematics", "Medicine",
   "Medicine (Graduate course)", "Modern and Medieval Languages", "Music",
   "Natural Sciences", "Philosophy", "Psychological and Behavioural Sciences",
   "Theology, Religion, and Philosophy of Religion", "Veterinary Medicine",
-  "MBA", "MPhil (any subject)", "MSt (any subject)", "MASt (any subject)",
+  "MBA", "MFin", "MPhil (any subject)", "MSt (any subject)", "MASt (any subject)",
   "LLM", "PhD (any subject)", "Other"
 ];
 
 const QUESTIONS = [
   { id:'firstName', type:'text', label:"What's your first name?", required:true },
   { id:'lastName', type:'text', label:"And your last name?", required:true },
-  { id:'email', type:'email', label:"What's the best email to reach you on?", required:true },
-  { id:'college', type:'autocomplete', label:"Which college are you a part of?", required:true, options:CAMBRIDGE_COLLEGES },
+  { id:'email', type:'email', label:"What's your @cam email?", required:true, domain:'cam.ac.uk' },
+  { id:'college', type:'autocomplete', label:"Which college are you a member of?", required:true, options:CAMBRIDGE_COLLEGES },
   { id:'course', type:'autocomplete', label:"What's your course of study or area of research?", required:true, options:CAMBRIDGE_COURSES, otherFollowup:true },
-  { id:'stage', type:'choice', label:"What stage are you?", required:true, options:['Undergrad','Postgrad','PhD'], other:true },
+  { id:'stage', type:'choice', label:"What stage are you?", required:true, options:['Undergrad','Postgrad'] },
   { id:'yearOfStudy', type:'text', label:"What year of study or research are you in?", required:true },
+  { id:'commitment', type:'choice', label:"Can you commit to attending all eight weekly sessions?", hint:"Venture Academy meets every Wednesday evening from 20 January to 10 March 2027, 6:00–7:30pm at Trinity College. Last year we had over 250 applications for 25 places, so every place counts.\n\nYour team, your startup and our visiting investors are all relying on you to be in the room each week. Please only apply if you can attend every session.", required:true, options:['Yes - I can attend all eight sessions and understand that places are very limited.'] },
   { id:'gender', type:'choice', label:"Which gender do you identify with?", required:true, options:['Female','Male','Non-binary','Prefer not to say'] },
   { id:'interests', type:'choice', label:"Which of these best describe your interests?", required:true, options:['Entrepreneurship','Investing','Both'] },
   { id:'builderStory', type:'textarea', label:"Tell us about something you started or made happen that nobody asked you to do.", hint:"What was it, when did you do it, and what came of it? Please include at least one number - people involved, customers, money raised or earned, or hours spent. Scale doesn't matter: a society, a side hustle, an event or a tool you built for friends all count.", maxLength:750, required:true },
@@ -688,6 +691,11 @@ function validate(q){
   if (q.type === 'email' && val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)){
     field.classList.add('field-error');
     errorBox.textContent = 'That email doesn\'t look quite right.';
+    return false;
+  }
+  if (q.type === 'email' && val && q.domain && !val.toLowerCase().endsWith('@' + q.domain)){
+    field.classList.add('field-error');
+    errorBox.textContent = 'Please use your @' + q.domain + ' email address.';
     return false;
   }
   if (q.type === 'url' && val && !/^(https?:\/\/)?[^\s.]+\.[^\s]+$/i.test(val)){
