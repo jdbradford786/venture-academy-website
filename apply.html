@@ -167,6 +167,9 @@
   }
   .option.selected .key{ border-color:var(--steel); color:var(--steel); }
   .other-input{ margin-top:6px; max-width:560px; }
+  .followup{ margin-top:20px; max-width:640px; }
+  .followup .other-input{ max-width:none; }
+  .followup label{ display:block; font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-70); }
 
   /* autocomplete dropdown (college / course of study) */
   .autocomplete-wrap{ position:relative; max-width:640px; }
@@ -352,7 +355,10 @@ const QUESTIONS = [
   { id:'lastName', type:'text', label:"And your last name?", required:true },
   { id:'email', type:'email', label:"What's your @cam email?", required:true, domain:'cam.ac.uk' },
   { id:'college', type:'autocomplete', label:"Which college are you a member of?", required:true, options:CAMBRIDGE_COLLEGES },
-  { id:'course', type:'autocomplete', label:"What's your course of study or area of research?", required:true, options:CAMBRIDGE_COURSES, otherFollowup:true },
+  { id:'course', type:'autocomplete', label:"What's your course of study or area of research?", required:true, options:CAMBRIDGE_COURSES, followups:[
+      { when:'Other', label:'Which course?', placeholder:'Please specify your course', error:'Please tell us what course that is.' },
+      { when:'(any subject)', label:'Which subject or research area?', placeholder:'e.g. Chemical Engineering (battery materials)', error:'Please tell us your subject or research area.' }
+    ] },
   { id:'stage', type:'choice', label:"What stage are you?", required:true, options:['Undergrad','Postgrad'] },
   { id:'yearOfStudy', type:'text', label:"What year of study or research are you in?", required:true },
   { id:'commitment', type:'choice', label:"Can you commit to attending all eight weekly sessions?", hint:"Venture Academy meets every Wednesday evening from 20 January to 10 March 2027, 6:00–7:30pm at Trinity College. Last year we had over 250 applications for 25 places, so every place counts.\n\nYour team, your startup and our visiting investors are all relying on you to be in the room each week. Please only apply if you can attend every session.", required:true, options:['Yes - I can attend all eight sessions and understand that places are very limited.'] },
@@ -451,8 +457,11 @@ function buildSlide(q, index){
         item.addEventListener('mousedown', function(e){
           e.preventDefault();
           input.value = m;
+          input.dispatchEvent(new Event('input'));
           suggestions.classList.remove('open');
-          setTimeout(function(){ attemptAdvance(); }, 150);
+          var fu = followupInput(q);
+          if (fu){ setTimeout(function(){ fu.focus(); }, 50); }
+          else { setTimeout(function(){ attemptAdvance(); }, 150); }
         });
         suggestions.appendChild(item);
       });
@@ -475,7 +484,13 @@ function buildSlide(q, index){
       else if (e.key === 'ArrowUp'){ e.preventDefault(); if (items.length) setHighlight(Math.max(highlighted-1, 0)); }
       else if (e.key === 'Enter'){
         e.preventDefault();
-        if (highlighted >= 0 && items[highlighted]){ input.value = items[highlighted].textContent; suggestions.classList.remove('open'); }
+        if (highlighted >= 0 && items[highlighted]){
+          input.value = items[highlighted].textContent;
+          input.dispatchEvent(new Event('input'));
+          suggestions.classList.remove('open');
+        }
+        var fu = followupInput(q);
+        if (fu && !fu.value.trim()){ fu.focus(); return; }
         attemptAdvance();
       } else if (e.key === 'Escape'){ suggestions.classList.remove('open'); }
     });
@@ -483,19 +498,34 @@ function buildSlide(q, index){
     el.appendChild(errorEl());
     el.appendChild(navRow('OK'));
 
-    if (q.otherFollowup){
+    if (q.followups){
+      const box = document.createElement('div');
+      box.className = 'followup';
+      box.id = q.id + '-followup';
+      box.style.display = 'none';
+      const fuLabel = document.createElement('label');
+      fuLabel.setAttribute('for', q.id + '-other');
       const otherInput = document.createElement('input');
       otherInput.type = 'text';
       otherInput.className = 'field-text other-input';
       otherInput.id = q.id + '-other';
-      otherInput.placeholder = 'Please specify your course';
-      otherInput.style.display = 'none';
       otherInput.addEventListener('keydown', function(e){
         if (e.key === 'Enter'){ e.preventDefault(); attemptAdvance(); }
       });
-      el.insertBefore(otherInput, el.querySelector('.error-msg'));
+      box.appendChild(fuLabel);
+      box.appendChild(otherInput);
+      el.insertBefore(box, el.querySelector('.error-msg'));
+      var currentFollowup = null;
       input.addEventListener('input', function(){
-        otherInput.style.display = input.value.trim().toLowerCase() === 'other' ? 'block' : 'none';
+        var f = findFollowup(q, input.value);
+        if (f !== currentFollowup){ otherInput.value = ''; currentFollowup = f; }
+        if (f){
+          fuLabel.textContent = f.label;
+          otherInput.placeholder = f.placeholder;
+          box.style.display = 'block';
+        } else {
+          box.style.display = 'none';
+        }
       });
     }
   }
@@ -645,6 +675,20 @@ function showSlide(index){
   }
 }
 
+// Follow-up box under an autocomplete answer (e.g. 'Other' or any '(any subject)' option).
+function findFollowup(q, val){
+  if (!q.followups || !val) return null;
+  var v = val.trim().toLowerCase();
+  return q.followups.filter(function(f){
+    var w = f.when.toLowerCase();
+    return v === w || v.endsWith(' ' + w);
+  })[0] || null;
+}
+function followupInput(q){
+  var box = document.getElementById(q.id + '-followup');
+  return (box && box.style.display !== 'none') ? document.getElementById(q.id + '-other') : null;
+}
+
 function validate(q){
   const errorBox = slideEls[QUESTIONS.indexOf(q)].querySelector('.error-msg');
   errorBox.textContent = '';
@@ -673,10 +717,14 @@ function validate(q){
       errorBox.textContent = 'Please select an option from the list.';
       return false;
     }
-    if (validMatch.toLowerCase() === 'other' && q.otherFollowup){
-      var otherVal = document.getElementById(q.id + '-other').value.trim();
-      if (!otherVal){ errorBox.textContent = 'Please tell us what course that is.'; return false; }
+    var fu = findFollowup(q, validMatch);
+    if (fu){
+      var otherField = document.getElementById(q.id + '-other');
+      var otherVal = otherField.value.trim();
+      if (!otherVal){ errorBox.textContent = fu.error; otherField.focus(); return false; }
       answers[q.id + 'Other'] = otherVal;
+    } else {
+      delete answers[q.id + 'Other'];
     }
     field.classList.remove('field-error');
     answers[q.id] = validMatch;
