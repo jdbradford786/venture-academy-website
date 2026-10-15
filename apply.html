@@ -741,10 +741,18 @@ function validate(q){
     errorBox.textContent = 'That email doesn\'t look quite right.';
     return false;
   }
-  if (q.type === 'email' && val && q.domain && !val.toLowerCase().endsWith('@' + q.domain)){
-    field.classList.add('field-error');
-    errorBox.textContent = 'Please use your @' + q.domain + ' email address.';
-    return false;
+  if (q.type === 'email' && val && q.domain){
+    // Accept the bare domain (name@cam.ac.uk) AND any subdomain of it, such as
+    // college or department addresses (name@trin.cam.ac.uk, name@tcm.phy.cam.ac.uk).
+    // Each subdomain label must be a normal hostname label and the match must fall on
+    // a dot boundary, so look-alikes such as name@notcam.ac.uk or name@cam.ac.uk.example.com fail.
+    var emailHost = val.slice(val.lastIndexOf('@') + 1).toLowerCase();
+    var hostPattern = new RegExp('^([a-z0-9]([a-z0-9-]*[a-z0-9])?\\.)*' + q.domain.replace(/\./g, '\\.') + '$');
+    if (!hostPattern.test(emailHost)){
+      field.classList.add('field-error');
+      errorBox.textContent = 'Please use your Cambridge email address (it should end in ' + q.domain + ').';
+      return false;
+    }
   }
   if (q.type === 'url' && val && !/^(https?:\/\/)?[^\s.]+\.[^\s]+$/i.test(val)){
     field.classList.add('field-error');
