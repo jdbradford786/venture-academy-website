@@ -481,7 +481,7 @@
 
   "dates": {
     "kickoff": "20 January 2027",
-    "deadline": "Date TBC",
+    "deadline": "15 November 2026",
     "icEvening": "10 March 2027"
   },
 
@@ -589,7 +589,7 @@ window.PHOTOS = {
 
     <p class="sub">Twenty-five students. Four early-stage startups. One Investment Committee. An eight-week dive into venture capital, taught by the people who do it for a living.</p>
     <div class="hero-actions">
-      <span class="btn btn-disabled" aria-disabled="true">Coming Soon</span>
+      <a href="#apply" class="btn btn-primary">Apply for <span id="hero-cta-cohort">Cohort II</span></a>
       <a href="#journey" class="btn btn-ghost">See the eight weeks</a>
     </div>
   </div>
@@ -752,7 +752,7 @@ window.PHOTOS = {
         <span class="tag">Students</span>
         <h3>Apply as a student</h3>
         <p>Open to Cambridge University students. No finance background required, just curiosity and a willingness to do the work.</p>
-        <span id="apply-student-link" class="btn btn-disabled" aria-disabled="true">Coming Soon</span>
+        <a href="apply.html" id="apply-student-link" class="btn btn-primary">Apply as a Student</a>
       </div>
       <div class="apply-card">
         <span class="tag">Startups</span>
@@ -822,6 +822,7 @@ window.PHOTOS = {
     try {
       // Cohort / term mentions scattered through the copy
       setText('hero-eyebrow', 'Trinity College, Cambridge · ' + data.term);
+      setText('hero-cta-cohort', data.cohortLabel);
       setText('programme-cohort', data.cohortLabel);
       setText('journey-kicker', 'Eight Weeks · ' + data.term);
       setText('journey-heading', data.cohortLabel);
@@ -844,6 +845,7 @@ window.PHOTOS = {
       setText('nav-journey-f', data.cohortLabel);
 
       // Apply links
+      setHref('apply-student-link', data.applyLinks.student);
       setHref('apply-startup-link', data.applyLinks.startup);
 
       // Stats
